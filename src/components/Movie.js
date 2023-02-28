@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { deleteMovie } from '../actions/movieActions';
+import { addFavorite, mainMovieSilindi } from '../actions/favoritesActions';
 
 const Movie = (props) => {
   const { id } = useParams();
@@ -10,10 +11,18 @@ const Movie = (props) => {
   const dispatch = useDispatch()
   const movies =useSelector((store)=> store.mainMovie.movies);
   const movie = movies.find(movie => movie.id === Number(id));
+  const displayFavorites=useSelector((store)=> store.favorite.displayFavorites)
+  const currentFavorites=useSelector((store)=>store.favorite.favorites)
 
   const handleSil = () =>{
     dispatch(deleteMovie(Number(id)))
     history.push("/movies");
+    dispatch(mainMovieSilindi(Number(id)))
+  }
+
+  const handleFavoriEkle=()=>{
+    if(currentFavorites.find(item=>item===movie)===undefined){
+      dispatch(addFavorite(movie))}
   }
 
   return (
@@ -45,7 +54,7 @@ const Movie = (props) => {
       </div>
       <div className="px-5 py-3 border-t border-zinc-200 flex justify-end gap-2">
         <button type="button" className="myButton bg-red-600 hover:bg-red-500" onClick={handleSil}>Sil</button>
-        <button className="myButton bg-blue-600 hover:bg-blue-500 ">Favorilere ekle</button>
+        <button className="myButton bg-blue-600 hover:bg-blue-500 " onClick={handleFavoriEkle} disabled={displayFavorites===false}>Favorilere ekle</button>
       </div>
     </div>
   );
