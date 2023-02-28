@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { addMovie } from './../actions/movieActions';
+import { addMovie} from './../actions/movieActions';
 
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const AddMovieForm = (props) => {
-  const { push } = useHistory();
-
+  const history = useHistory();
+  const dispatch=useDispatch()
   const [movie, setMovie] = useState({
     title: "",
     director: "",
@@ -13,6 +14,11 @@ const AddMovieForm = (props) => {
     metascore: 0,
     description: ""
   });
+
+  const handleEkle =()=>{
+    dispatch(addMovie(movie))
+    history.push("/movies")
+  }
 
   const handleChange = (e) => {
     setMovie({
@@ -59,7 +65,7 @@ const AddMovieForm = (props) => {
           <Link to={`/movies`} className="myButton bg-zinc-500">
             Vazgeç
           </Link>
-          <button type="submit" className="myButton bg-green-700 hover:bg-green-600">Ekle</button>
+          <button type="submit" className="myButton bg-green-700 hover:bg-green-600" onClick={handleEkle}>Ekle</button>
         </div>
       </form>
     </div>
