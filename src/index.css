@@ -21,8 +21,10 @@ code {
 
 .myButton {
   @apply inline-flex items-center gap-1 py-2 px-3 text-white rounded cursor-pointer text-sm transition-colors tracking-tighter;
-}
-
+  }
+  .myButton:disabled{
+    background-color: grey;
+  }
 th {
   @apply py-3 px-2;
 }
